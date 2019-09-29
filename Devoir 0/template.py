@@ -12,19 +12,8 @@ def degMax(A):
     - OUTPUT : the biggest degree of the graph represented by A
     
     """
-    degmax = 0
-    for i in range(len(A)):
-        sum = 0
-        for j in range(len(A)):
-            if i == j:
-                sum += 2 * A[i][j]
-            else:
-                sum += A[i][j]
 
-        if sum > degmax:
-            degmax = sum
-
-    return degmax
+    return max([sum(A[i]) + A[i][i] for i in range(len(A))])
 
 
 if __name__ == "__main__":

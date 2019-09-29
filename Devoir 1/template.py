@@ -15,7 +15,7 @@ def check_mapping(A, B, h):
     Return True if h(A) = B, False otherwise
     """
     
-    # TO COMPLETE
+    
     
     return True
 
