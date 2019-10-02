@@ -14,12 +14,14 @@ def check_mapping(A, B, h):
         - h an array describing an isomorphism mapping node i from A to node h[i] from B  
     Return True if h(A) = B, False otherwise
     """
-    
-    
-    
+    for i in range(len(A)):
+        for j in range(len(A[0])):
+            if A[h[i]][h[j]] != B[i][j]:
+                return False
     return True
 
-def are_iso(A,B):
+
+def are_iso(A, B):
     """
     Input :
         - A, B two adjacency matrices (arrays of arrays) with same dimensions
@@ -29,7 +31,10 @@ def are_iso(A,B):
         - h an array describing an isomorphim such that h(A) = B
     """
 
-    # TO COMPLETE
+    H = list(itertools.permutations(range(len(A)))) #liste de tous les isomorphes possibles
+    for i in range(len(A)):
+        if check_mapping(A, B, list(H[i])):
+            return True, list(H[i])
 
     return False, []
 
@@ -37,13 +42,12 @@ def color_ones(A):
     """
     Input :
         - A an adjacency matrix (array of arrays)
-        
+
     Return an array of same dimension as A containing only ones
     """
     
-    # TO COMPLETE
-    
-    return []
+    return [[1 for _ in range(len(A[0]))] for _ in range(len(A))]
+
 
 def color_degree(A):
     """
@@ -53,9 +57,8 @@ def color_degree(A):
     Return an array containing the degrees of the nodes of A
     """
    
-    # TO COMPLETE
-   
-    return []
+    return [sum(A[i]) + A[i][i] for i in range(len(A))]
+
 
 def color_k_neigh(A, k):
     """
@@ -102,15 +105,17 @@ if __name__ == "__main__":
             A.append([int(x) for x in lines[i]])
         
         for j in range(n, 2*n):
-            B.append([int(x) for x in lines[j]])  
+            B.append([int(x) for x in lines[j]])
             
     # Compute answer
      
-    are_iso, h = are_iso_with_colors(A, B, color_ones)
+    #are_iso, h = are_iso_with_colors(A, B, color_ones)
     #are_iso, h = are_iso_with_colors(A, B, color_degree)
     #are_iso, h = are_iso_with_colors(A, B, lambda x : color_k_neigh(x, 2))
      
     # Check results
+    #bln, arr = are_iso(A, B)
+    #print(arr)
 
     with open('out1.csv', 'r') as fd:
         lines = csv.reader(fd, delimiter=',')
@@ -130,4 +135,3 @@ if __name__ == "__main__":
                 
             
 
-        
