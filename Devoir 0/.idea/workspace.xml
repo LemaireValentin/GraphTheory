@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3ca1a13-bb46-4db7-8b70-a979e8c86f8c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Devoir 1/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Devoir 1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Devoir 1/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Devoir 1/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Devoir 1/template.py" afterDir="false" />
@@ -21,7 +22,7 @@
         <entry file="file://$PROJECT_DIR$/template.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
-              <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+              <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -122,7 +123,7 @@
       <workItem from="1569583823382" duration="2279000" />
       <workItem from="1569795026141" duration="460000" />
       <workItem from="1570011809039" duration="6000" />
-      <workItem from="1570029398701" duration="1190000" />
+      <workItem from="1570029398701" duration="1204000" />
     </task>
     <task id="LOCAL-00001" summary="technique nettement plus stylée pour le calcul de rang">
       <created>1569795353844</created>
@@ -135,7 +136,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3935000" />
+    <option name="totallyTimeSpent" value="3949000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -175,7 +176,7 @@
     <entry file="file://$PROJECT_DIR$/template.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
-          <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+          <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
         </state>
       </provider>
     </entry>
