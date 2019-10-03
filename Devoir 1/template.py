@@ -14,6 +14,8 @@ def check_mapping(A, B, h):
         - h an array describing an isomorphism mapping node i from A to node h[i] from B
     Return True if h(A) = B, False otherwise
     """
+
+
     for i in range(len(A)):
         for j in range(len(A[0])):
             if A[i][j] != B[h[i]][h[j]]:
@@ -69,10 +71,26 @@ def color_k_neigh(A, k):
     Return an array containing the colors as defined in Q4 of the project statement
     The colors have to be structured as a sorted tuple of pairs (k, deg(v))
     """
+    degs = color_degree(A)
+    neigh = [[(0, degs[i])] for i in range(len(A))]
+    B = [[int(i == j) for i in range(len(A))] for j in range(len(A))]
+    ispath = [[int(i == j) for i in range(len(A))] for j in range(len(A))]
 
-    # TO COMPLETE
+    for iter in range(1, k+1):
+        B = [[sum([a*b for a, b in zip(row, col)]) for col in zip(*B)] for row in A]
 
-    return []
+        for i in range(len(A)):
+            for j in range(len(A)):
+                if B[i][j] > 0:
+                    ispath[i][j] = 1
+
+                if ispath[i][j] == 1:
+                    neigh[i].append((iter, degs[j]))
+
+    for i in range(len(A)):
+        neigh[i] = sorted(neigh[i], key=lambda tup: (tup[0], tup[1]))
+
+    return neigh
 
 
 def are_iso_with_colors(A, B, color = color_ones):
@@ -113,9 +131,8 @@ if __name__ == "__main__":
     #are_iso, h = are_iso_with_colors(A, B, color_degree)
     #are_iso, h = are_iso_with_colors(A, B, lambda x : color_k_neigh(x, 2))
 
-    # Check results
-    bln, arr = are_iso(A, B)
-    print(arr)
+    neigh = color_k_neigh([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], 1)
+    print(neigh)
 
     with open('out1.csv', 'r') as fd:
         lines = csv.reader(fd, delimiter=',')
