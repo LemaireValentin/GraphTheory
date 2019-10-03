@@ -7,6 +7,10 @@
 import itertools
 import csv
 
+
+# --------------------------------------------------
+# Fonction 1
+# --------------------------------------------------
 def check_mapping(A, B, h):
     """
     Input :
@@ -15,14 +19,15 @@ def check_mapping(A, B, h):
     Return True if h(A) = B, False otherwise
     """
 
-
     for i in range(len(A)):
         for j in range(len(A[0])):
             if A[i][j] != B[h[i]][h[j]]:
                 return False
     return True
 
-
+# --------------------------------------------------
+# Fonction 2
+# --------------------------------------------------
 def are_iso(A, B):
     """
     Input :
@@ -40,6 +45,9 @@ def are_iso(A, B):
 
     return False, []
 
+# --------------------------------------------------
+# Fonction 3
+# --------------------------------------------------
 def color_ones(A):
     """
     Input :
@@ -50,7 +58,9 @@ def color_ones(A):
 
     return [1 for _ in range(len(A))]
 
-
+# --------------------------------------------------
+# Fonction 4
+# --------------------------------------------------
 def color_degree(A):
     """
     Input :
@@ -61,7 +71,9 @@ def color_degree(A):
 
     return [sum(A[i]) + A[i][i] for i in range(len(A))]
 
-
+# --------------------------------------------------
+# Fonction 5
+# --------------------------------------------------
 def color_k_neigh(A, k):
     """
     Input :
@@ -92,7 +104,9 @@ def color_k_neigh(A, k):
 
     return neigh
 
-
+# --------------------------------------------------
+# Fonction 6
+# --------------------------------------------------
 def are_iso_with_colors(A, B, color = color_ones):
     """
     Input :
@@ -108,6 +122,9 @@ def are_iso_with_colors(A, B, color = color_ones):
 
     return False, []
 
+# --------------------------------------------------
+# Tests
+# --------------------------------------------------
 if __name__ == "__main__":
 
     # Read Input
@@ -149,6 +166,3 @@ if __name__ == "__main__":
                     print("Correct answer")
                 else:
                     print("Wrong answer: incorrect mapping")
-
-
-
