@@ -115,10 +115,30 @@ def are_iso_with_colors(A, B, color = color_ones):
     Return (Ans, h) using the coloring heuristic with :
         - Ans = True if A and B are isomorphic, False otherwise
         - h describe an isomorphim such that h(A) = B if Ans = True, h = [] otherwise
-
     """
 
-    # TO COMPLETE
+    def check_edges(A, B, h):
+        for i in range(len(A)):
+            for j in range(len(A[0])):
+                if h[i] != -1 and A[i][j] != B[h[i]][h[j]]:
+                    return False
+        return True
+
+    def check_color(A, B, h, color_A, color_B):
+        for i in range(len(A)):
+            if color_A[i] != color_B[h[i]] :
+                return False
+        return True
+
+    h = [-1]*len(B)
+
+    if not check_edges(A, B, h) or not check_color(A, B, h, color(A), color(B)):
+        return False
+    elif -1 not in h:
+        return True
+    for TODO in apres_avoir_mangez :
+        pass
+
 
     return False, []
 
