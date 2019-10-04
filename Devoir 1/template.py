@@ -124,23 +124,32 @@ def are_iso_with_colors(A, B, color = color_ones):
                     return False
         return True
 
-    def check_color(A, B, h, color_A, color_B):
-        for i in range(len(A)):
-            if color_A[i] != color_B[h[i]] :
+    def check_color(color_A, color_B, h):
+        for i in range(len(color_A)):
+            if h[i] != -1 and color_A[i] != color_B[h[i]]:
                 return False
         return True
 
-    h = [-1]*len(B)
+    def isom_color(A, B, h):
+        color_A = color(A)
+        color_B = color(B)
 
-    if not check_edges(A, B, h) or not check_color(A, B, h, color(A), color(B)):
-        return False
-    elif -1 not in h:
-        return True
-    for TODO in apres_avoir_mangez :
-        pass
+        if not check_edges(A, B, h) or not check_color(color_A, color_B, h):
+            return False, []
 
+        elif -1 not in h:
+            return True, h
 
-    return False, []
+        for i in range(len(h)):
+            for j in range(len(h)):
+                if h[i] == -1 and j not in h and color_A[i] == color_B[j]:
+                    h2 = [h[k] for k in range(len(h))]
+                    h2[i] = j
+                    bln, h3 = isom_color(A, B, h2)
+                    if bln:
+                        return True, h3
+    h = [-1] * len(A)
+    return isom_color(A, B, h)
 
 # --------------------------------------------------
 # Tests
@@ -164,12 +173,12 @@ if __name__ == "__main__":
 
     # Compute answer
 
-    #are_iso, h = are_iso_with_colors(A, B, color_ones)
+    are_iso, h = are_iso_with_colors(A, B, color_ones)
     #are_iso, h = are_iso_with_colors(A, B, color_degree)
     #are_iso, h = are_iso_with_colors(A, B, lambda x : color_k_neigh(x, 2))
 
-    neigh = color_k_neigh([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], 1)
-    print(neigh)
+    #neigh = color_k_neigh([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], 1)
+    #print(neigh)
 
     with open('out1.csv', 'r') as fd:
         lines = csv.reader(fd, delimiter=',')
