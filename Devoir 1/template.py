@@ -161,6 +161,8 @@ def are_iso_with_colors(A, B, color = color_ones):
                     if bln:
                         return True, h3
 
+        return False, []
+
     h = [-1] * len(A)
     return isom_color(A, B, h)
 
@@ -192,7 +194,7 @@ if __name__ == "__main__":
     #are_iso, h = are_iso_with_colors(A, B, color_degree)
     #are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
 
-    print(are_iso_with_colors([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], [[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], color_degree))
+    print(are_iso_with_colors([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], [[0, 2, 0, 1], [2, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], color_degree))
     #print(neigh)
 
     with open('out1.csv', 'r') as fd:
