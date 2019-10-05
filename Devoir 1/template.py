@@ -11,6 +11,7 @@ import csv
 # --------------------------------------------------
 # Fonction 1
 # --------------------------------------------------
+
 def check_mapping(A, B, h):
     """
     Input :
@@ -25,9 +26,11 @@ def check_mapping(A, B, h):
                 return False
     return True
 
+
 # --------------------------------------------------
 # Fonction 2
 # --------------------------------------------------
+
 def are_iso(A, B):
     """
     Input :
@@ -45,9 +48,11 @@ def are_iso(A, B):
 
     return False, []
 
+
 # --------------------------------------------------
 # Fonction 3
 # --------------------------------------------------
+
 def color_ones(A):
     """
     Input :
@@ -58,9 +63,11 @@ def color_ones(A):
 
     return [1 for _ in range(len(A))]
 
+
 # --------------------------------------------------
 # Fonction 4
 # --------------------------------------------------
+
 def color_degree(A):
     """
     Input :
@@ -71,9 +78,11 @@ def color_degree(A):
 
     return [sum(A[i]) + A[i][i] for i in range(len(A))]
 
+
 # --------------------------------------------------
 # Fonction 5
 # --------------------------------------------------
+
 def color_k_neigh(A, k):
     """
     Input :
@@ -86,7 +95,7 @@ def color_k_neigh(A, k):
     degs = color_degree(A)
     neigh = [[(0, degs[i])] for i in range(len(A))]
     B = [[int(i == j) for i in range(len(A))] for j in range(len(A))]
-    ispath = [[int(i == j) for i in range(len(A))] for j in range(len(A))]
+    isPath = [[int(i == j) for i in range(len(A))] for j in range(len(A))]
 
     for iter in range(1, k+1):
         B = [[sum([a*b for a, b in zip(row, col)]) for col in zip(*B)] for row in A]
@@ -94,19 +103,22 @@ def color_k_neigh(A, k):
         for i in range(len(A)):
             for j in range(len(A)):
                 if B[i][j] > 0:
-                    ispath[i][j] = 1
+                    isPath[i][j] = 1
 
-                if ispath[i][j] == 1:
+                if isPath[i][j] == 1:
                     neigh[i].append((iter, degs[j]))
 
     for i in range(len(A)):
-        neigh[i] = sorted(neigh[i], key=lambda tup: (tup[0], tup[1]))
+        neigh[i] = tuple(sorted(neigh[i], key=lambda tup: (tup[0], tup[1])))
 
     return neigh
+
+
 
 # --------------------------------------------------
 # Fonction 6
 # --------------------------------------------------
+
 def are_iso_with_colors(A, B, color = color_ones):
     """
     Input :
@@ -120,21 +132,21 @@ def are_iso_with_colors(A, B, color = color_ones):
     def check_edges(A, B, h):
         for i in range(len(A)):
             for j in range(len(A[0])):
-                if h[i] != -1 and A[i][j] != B[h[i]][h[j]]:
+                if h[i] != -1 and h[j] != -1 and A[i][j] != B[h[i]][h[j]]:
                     return False
         return True
 
-    def check_color(color_A, color_B, h):
-        for i in range(len(color_A)):
-            if h[i] != -1 and color_A[i] != color_B[h[i]]:
-                return False
-        return True
+    #def check_color(color_A, color_B, h):
+    #    for i in range(len(color_A)):
+    #        if h[i] != -1 and color_A[i] != color_B[h[i]]:
+    #            return False
+    #    return True
 
     def isom_color(A, B, h):
         color_A = color(A)
         color_B = color(B)
 
-        if not check_edges(A, B, h) or not check_color(color_A, color_B, h):
+        if not check_edges(A, B, h): #or not check_color(color_A, color_B, h):
             return False, []
 
         elif -1 not in h:
@@ -148,12 +160,15 @@ def are_iso_with_colors(A, B, color = color_ones):
                     bln, h3 = isom_color(A, B, h2)
                     if bln:
                         return True, h3
+
     h = [-1] * len(A)
     return isom_color(A, B, h)
+
 
 # --------------------------------------------------
 # Tests
 # --------------------------------------------------
+
 if __name__ == "__main__":
 
     # Read Input
@@ -173,11 +188,11 @@ if __name__ == "__main__":
 
     # Compute answer
 
-    are_iso, h = are_iso_with_colors(A, B, color_ones)
+    #are_iso, h = are_iso_with_colors(A, B, color_ones)
     #are_iso, h = are_iso_with_colors(A, B, color_degree)
-    #are_iso, h = are_iso_with_colors(A, B, lambda x : color_k_neigh(x, 2))
+    #are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
 
-    #neigh = color_k_neigh([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], 1)
+    print(are_iso_with_colors([[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], [[0, 1, 0, 1], [1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 1, 0]], color_degree))
     #print(neigh)
 
     with open('out1.csv', 'r') as fd:
