@@ -43,7 +43,7 @@ def shortest_path_1(maze):
     q.append(E)
     tab[E[0]][E[1]] = 0
 
-    while not Q.Empty(q):
+    while q:
         current = q.popleft()
         # North
         if maze[current[0]-1][current[1]] != "#" and tab[current[0]-1][current[1]] < 0 :
@@ -83,7 +83,26 @@ def shortest_path_2(tasks, paths):
         See project statement for more details
     """
 
-    return -1
+    def findMinIndex(tab, queue):
+        for e in queue:
+            tab[e] = max(tab)+1
+        return tab.index(min(tab))
+
+
+    # (distance, direction)
+    pathTime = [1000*(len(tasks)+len(paths))] * len(tasks)
+    pathTime[0] = tasks[0]
+
+    q = deque(maxlen=len(tasks))
+
+    while not Q.Full(q):
+        chosen = findMinIndex(pathTime, q)
+        q.append(chosen)
+        for i in range(len(tasks)):
+            if q.count(i) == 0 and (paths[i][0] == chosen or paths[i][1] == chosen):
+                pathTime[i] = min(pathTime[i], pathTime[chosen]+paths[i][2]+tasks[i])
+
+    return pathTime[-1]
 
 
 if __name__ == "__main__":
@@ -150,7 +169,3 @@ if __name__ == "__main__":
         else:
             print("Exercice 2 : Wrong answer")
             print("Your output : %d ; Correct answer : %d" % (ans2, expected_output))
-
-
-
-
