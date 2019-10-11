@@ -82,27 +82,27 @@ def shortest_path_2(tasks, paths):
 
         See project statement for more details
     """
+    maxPathLength = 1000 * (len(tasks)+len(paths)) + 1
 
-    def findMinIndex(tab, queue):
-        for e in queue:
-            tab[e] = max(tab)+1
-        return tab.index(min(tab))
+    passed  = [42] * len(tasks)
+    time    = [maxPathLength] * len(tasks)
+    time[0] = tasks[0]
 
+    while max(passed) != -1 :
+        minValue = maxPathLength
+        minIndex = 0
+        for i in range(len(passed)) :
+            if minValue > time[i] and passed[i] != -1 :
+                minIndex = i
+                minValue = time[i]
+        for i in range(len(paths)) :
+            if paths[i][0] == minIndex+1 :
+                time[paths[i][1]-1] = min(time[paths[i][1]-1], time[minIndex]+paths[i][2]+tasks[paths[i][1]-1])
+            if paths[i][1] == minIndex+1 :
+                time[paths[i][0]-1] = min(time[paths[i][0]-1], time[minIndex]+paths[i][2]+tasks[paths[i][0]-1])
+        passed[minIndex] = -1
 
-    # (distance, direction)
-    pathTime = [1000*(len(tasks)+len(paths))] * len(tasks)
-    pathTime[0] = tasks[0]
-
-    q = deque(maxlen=len(tasks))
-
-    while not Q.Full(q):
-        chosen = findMinIndex(pathTime, q)
-        q.append(chosen)
-        for i in range(len(tasks)):
-            if q.count(i) == 0 and (paths[i][0] == chosen or paths[i][1] == chosen):
-                pathTime[i] = min(pathTime[i], pathTime[chosen]+paths[i][2]+tasks[i])
-
-    return pathTime[-1]
+    return time[-1]
 
 
 if __name__ == "__main__":
