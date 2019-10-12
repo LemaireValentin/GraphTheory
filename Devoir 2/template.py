@@ -169,3 +169,7 @@ if __name__ == "__main__":
         else:
             print("Exercice 2 : Wrong answer")
             print("Your output : %d ; Correct answer : %d" % (ans2, expected_output))
+
+
+    print(shortest_path_2([462, 996, 493, 970, 878, 21, 798, 242, 429, 57],  [(3, 1, 631), (7, 2, 177), (4, 3, 661), (7, 4, 532), (8, 5, 317), (7, 6, 852), (8, 7, 77), (5, 9, 842), (2, 10, 256), (1, 4, 978)]))
+
