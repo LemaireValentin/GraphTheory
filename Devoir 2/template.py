@@ -37,38 +37,45 @@ def shortest_path_1(maze):
 
     E,S = find(maze)
 
+    # q = nodes to explore, FIFO
     q = deque()
-    tab = [[-42]*len(maze[0]) for _ in range(len(maze))]
+    # distance from E (-42 if not yet mapped or not attainable)
+    dist = [[-42]*len(maze[0]) for _ in range(len(maze))]
 
     q.append(E)
-    tab[E[0]][E[1]] = 0
+    dist[E[0]][E[1]] = 0
 
     while q:
         current = q.popleft()
-        # North
-        if maze[current[0]-1][current[1]] != "#" and tab[current[0]-1][current[1]] < 0 :
+        # North : checks north path
+        # skips if wall or already mapped
+        # note : if already mapped, shortest path found because FIFO queue
+        if maze[current[0]-1][current[1]] != "#" and dist[current[0]-1][current[1]] < 0 :
+            # return if exit found
             if maze[current[0]-1][current[1]] == "S":
-                return tab[current[0]][current[1]] + 1
+                return dist[current[0]][current[1]] + 1
+            # add node to list
             q.append((current[0]-1,current[1]))
-            tab[current[0]-1][current[1]] = tab[current[0]][current[1]] + 1
-        # East
-        if maze[current[0]][current[1]+1] != "#" and tab[current[0]][current[1]+1] < 0 :
+            # update distance
+            dist[current[0]-1][current[1]] = dist[current[0]][current[1]] + 1
+        # East : again
+        if maze[current[0]][current[1]+1] != "#" and dist[current[0]][current[1]+1] < 0 :
             if maze[current[0]][current[1]+1] == "S":
-                return tab[current[0]][current[1]] + 1
+                return dist[current[0]][current[1]] + 1
             q.append((current[0],current[1]+1))
-            tab[current[0]][current[1]+1] = tab[current[0]][current[1]] + 1
-        # South
-        if maze[current[0]+1][current[1]] != "#" and tab[current[0]+1][current[1]] < 0 :
+            dist[current[0]][current[1]+1] = dist[current[0]][current[1]] + 1
+        # South : and again
+        if maze[current[0]+1][current[1]] != "#" and dist[current[0]+1][current[1]] < 0 :
             if maze[current[0]+1][current[1]] == "S":
-                return tab[current[0]][current[1]] + 1
+                return dist[current[0]][current[1]] + 1
             q.append((current[0]+1,current[1]))
             tab[current[0]+1][current[1]] = tab[current[0]][current[1]] + 1
-        # West
+        # West : once more ?
         if maze[current[0]][current[1]-1] != "#" and tab[current[0]][current[1]-1] < 0 :
             if maze[current[0]][current[1]-1] == "S":
                 return tab[current[0]][current[1]] + 1
             q.append((current[0],current[1]-1))
-            tab[current[0]][current[1]-1] = tab[current[0]][current[1]] + 1
+            dist[current[0]][current[1]-1] = dist[current[0]][current[1]] + 1
     return -1
 
 def shortest_path_2(tasks, paths):
