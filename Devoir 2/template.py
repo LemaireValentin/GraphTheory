@@ -65,7 +65,7 @@ def shortest_path_1(maze):
             tab[current[0]+1][current[1]] = tab[current[0]][current[1]] + 1
         # West
         if maze[current[0]][current[1]-1] != "#" and tab[current[0]][current[1]-1] < 0 :
-            if maze[current[0]][current[1]+1] == "S":
+            if maze[current[0]][current[1]-1] == "S":
                 return tab[current[0]][current[1]] + 1
             q.append((current[0],current[1]-1))
             tab[current[0]][current[1]-1] = tab[current[0]][current[1]] + 1
