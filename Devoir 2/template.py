@@ -24,18 +24,12 @@ def shortest_path_1(maze):
 
     # Finds E and S in maze
     def find(maze):
-        E = None
-        S = None
         for i in range(1,len(maze)-1):
             for j in range(1,len(maze[i])-1):
                 if maze[i][j]=="E":
-                    E = (i,j)
-                if maze[i][j]=="S":
-                    S = (i,j)
-                if E != None and S != None :
-                    return E, S
+                    return (i,j)
 
-    E,S = find(maze)
+    E = find(maze)
 
     # q = nodes to explore, FIFO
     q = deque()
@@ -44,7 +38,7 @@ def shortest_path_1(maze):
 
     q.append(E)
     dist[E[0]][E[1]] = 0
-
+    
     while q:
         current = q.popleft()
         # North : checks north path
@@ -95,7 +89,7 @@ def shortest_path_2(tasks, paths):
     time    = [maxPathLength] * len(tasks)
     time[0] = tasks[0]
 
-    while max(passed) != -1 :
+    while passed[-1] != -1 :
         minValue = maxPathLength
         minIndex = 0
         for i in range(len(passed)) :
