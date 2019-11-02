@@ -23,19 +23,18 @@ def spanning_tree_1(N, roads):
         satisfaction += roads[i][2]
 
     sorted_roads = sorted(roads, key=lambda x: x[2])
-    node_above = [i for i in range(N)]
-    number_of_nodes_under = [0] * N
+    node_above = list(range(N))
     edges_in_tree = 0
     i = 0
 
-    def root(i):
+    def find(i):
         if node_above[i] == i:
             return i
-        return root(node_above[i])
+        return find(node_above[i])
 
     while edges_in_tree < N-1 and i < len(sorted_roads):
-        root_0 = root(sorted_roads[i][0])
-        root_1 = root(sorted_roads[i][1])
+        root_0 = find(sorted_roads[i][0])
+        root_1 = find(sorted_roads[i][1])
         if root_0 != root_1:
             node_above[root_1] = root_0
             edges_in_tree += 1
