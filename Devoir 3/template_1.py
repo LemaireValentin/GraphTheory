@@ -16,11 +16,38 @@ def spanning_tree_1(N, roads):
         
         See homework statement for more details
     """
-
     satisfaction = 0
-    
-    # TO COMPLETE
+    for i in range(len(roads)):
+        satisfaction += roads[i][2]
+    node_is_in_tree = [0] * N
+    road_was_explored = [0] * len(roads)
 
+    min_sat = roads[0][2]
+    index = -1
+    for i in range(len(roads)):
+        if min_sat > roads[i][2]:
+            index = i
+            min_sat = roads[i][2]
+    road_was_explored[index] = 1
+    node_is_in_tree[roads[index][0]] = 1
+    node_is_in_tree[roads[index][1]] = 1
+    satisfaction -= roads[index][2]
+
+    while min(node_is_in_tree) == 0:
+        min_sat = -1
+        index = -1
+        for i in range(len(roads)):
+            if min_sat == -1 and road_was_explored[i] != 1:
+                min_sat = roads[i][2]
+                index = i
+            if min_sat != -1 and min_sat > roads[i][2] and road_was_explored[i] != 1:
+                min_sat = roads[i][2]
+                index = i
+        if ((not node_is_in_tree[roads[index][0]]) and node_is_in_tree[roads[index][1]]) or ((not node_is_in_tree[roads[index][1]]) and node_is_in_tree[roads[index][0]]):
+            node_is_in_tree[roads[index][0]] = 1
+            node_is_in_tree[roads[index][1]] = 1
+            satisfaction -= roads[index][2]
+        road_was_explored[index] = 1
     return satisfaction
 
     
