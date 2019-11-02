@@ -17,37 +17,22 @@ def spanning_tree_1(N, roads):
         See homework statement for more details
     """
     satisfaction = 0
+
     for i in range(len(roads)):
         satisfaction += roads[i][2]
+
+    sorted_roads = sorted(roads, key=lambda x: x[2])
     node_is_in_tree = [0] * N
-    road_was_explored = [0] * len(roads)
+    edges_in_tree = 0
+    i = 0
 
-    min_sat = roads[0][2]
-    index = -1
-    for i in range(len(roads)):
-        if min_sat > roads[i][2]:
-            index = i
-            min_sat = roads[i][2]
-    road_was_explored[index] = 1
-    node_is_in_tree[roads[index][0]] = 1
-    node_is_in_tree[roads[index][1]] = 1
-    satisfaction -= roads[index][2]
-
-    while min(node_is_in_tree) == 0:
-        min_sat = -1
-        index = -1
-        for i in range(len(roads)):
-            if min_sat == -1 and road_was_explored[i] != 1:
-                min_sat = roads[i][2]
-                index = i
-            if min_sat != -1 and min_sat > roads[i][2] and road_was_explored[i] != 1:
-                min_sat = roads[i][2]
-                index = i
-        if ((not node_is_in_tree[roads[index][0]]) and node_is_in_tree[roads[index][1]]) or ((not node_is_in_tree[roads[index][1]]) and node_is_in_tree[roads[index][0]]):
-            node_is_in_tree[roads[index][0]] = 1
-            node_is_in_tree[roads[index][1]] = 1
-            satisfaction -= roads[index][2]
-        road_was_explored[index] = 1
+    while edges_in_tree < N-1 and i < len(sorted_roads):
+        if not node_is_in_tree[sorted_roads[i][0]] or not node_is_in_tree[sorted_roads[i][1]]:
+            node_is_in_tree[sorted_roads[i][0]] = 1
+            node_is_in_tree[sorted_roads[i][1]] = 1
+            edges_in_tree += 1
+            satisfaction -= sorted_roads[i][2]
+        i += 1
     return satisfaction
 
     
