@@ -16,16 +16,16 @@ class Union_Find():
   
     """
     
-    def __init__(this, N):
+    def __init__(self, N):
         """
         INPUT :
             - N : the initial number of disjoints sets
         """
-        this.N = N
-        this.p = list(range(N))
-        this.size = [1]*N
+        self.N = N
+        self.p = list(range(N))
+        self.size = [1]*N
         
-    def union(this, a, b):
+    def union(self, a, b):
         """
         INPUT :
             - a and b : two elements such that 0 <= a, b <= N-1
@@ -34,28 +34,28 @@ class Union_Find():
             
         After the operation, the two given sets are merged
         """
-        a = this.find(a)
-        b = this.find(b)
+        a = self.find(a)
+        b = self.find(b)
        
         if a == b:
             return
        
         # Swap variables if necessary
-        if this.size[a] > this.size[b]:
+        if self.size[a] > self.size[b]:
             a,b = b,a
         
-        this.size[b] += this.size[a]
-        this.p[a] = b
+        self.size[b] += self.size[a]
+        self.p[a] = b
         
-    def find(this, a):
+    def find(self, a):
         """
         INPUT :
             - a : one element such that 0 <= a <= N-1
         OUTPUT:
             - return the root of the element a
         """
-        if a != this.p[a]: this.p[a] = this.find(this.p[a])
-        return this.p[a]
+        if a != self.p[a]: self.p[a] = self.find(self.p[a])
+        return self.p[a]
     
 
 def spanning_tree_2(N, edges):
@@ -67,7 +67,7 @@ def spanning_tree_2(N, edges):
     OUTPUT :
         - return an estimation of the min cut of the graph
         
-    This method has to return the correct answer with probability bigger than 0.999
+    self method has to return the correct answer with probability bigger than 0.999
     See project homework for more details
     """
     def karger(nodes, edges):
