@@ -70,7 +70,7 @@ def spanning_tree_2(N, edges):
     self method has to return the correct answer with probability bigger than 0.999
     See project homework for more details
     """
-    def karger(nodes, edges):
+    def karger(N, edges):
         """ 
         INPUT : 
             - N the number of nodes
@@ -84,6 +84,7 @@ def spanning_tree_2(N, edges):
         
         min_cut = -1
         
+
         # TO COMPLETE
 
         return min_cut
@@ -143,3 +144,5 @@ if __name__ == "__main__":
             print("Exercice 2 : Wrong answer")
             print("Your output : %d ; Correct answer : %d" % (ans, expected_output)) 
 
+
+binomial = lambda n,k : (math.factorial(n))/(math.factorial(k)*math.factorial(n-k))
