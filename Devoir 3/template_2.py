@@ -25,7 +25,7 @@ class Union_Find():
         self.p = list(range(N))
         self.size = [1]*N
         
-    def union(self, a, b):
+    def union(self, a, b, edges_in_tree):
         """
         INPUT :
             - a and b : two elements such that 0 <= a, b <= N-1
@@ -38,15 +38,16 @@ class Union_Find():
         b = self.find(b)
        
         if a == b:
-            return
+            return edges_in_tree
        
         # Swap variables if necessary
         if self.size[a] > self.size[b]:
-            a,b = b,a
+            a, b = b, a
         
         self.size[b] += self.size[a]
         self.p[a] = b
-        
+        return edges_in_tree + 1
+
     def find(self, a):
         """
         INPUT :
@@ -59,6 +60,10 @@ class Union_Find():
     
 
 def spanning_tree_2(N, edges):
+    # returns binomial expression
+    binomial = lambda n, k: fact2(n, k) / math.factorial(n - k)
+    # returns n!/k! = (n) * (n-1) * ... * (n-k+1)
+    fact2 = lambda n, m: n * fact2(n - 1, m) if n > m else 1
     """ 
     INPUT : 
         - N the number of nodes
@@ -70,7 +75,7 @@ def spanning_tree_2(N, edges):
     self method has to return the correct answer with probability bigger than 0.999
     See project homework for more details
     """
-    def karger(N, edges):
+    def karger(nodes, edges):
         """ 
         INPUT : 
             - N the number of nodes
@@ -81,13 +86,33 @@ def spanning_tree_2(N, edges):
               
         See project homework for more details
         """
-        
-        min_cut = -1
-        
 
-        # TO COMPLETE
 
-        return min_cut
+
+
+        roads = randomize_edges(edges)
+
+        sorted_roads = sorted(roads, key=lambda x: x[2])
+        union_find = Union_Find(len(nodes))
+        edges_in_tree = 0
+        i = 0
+        while edges_in_tree < N - 2 and i < len(sorted_roads):
+            root_0 = union_find.find(sorted_roads[i][0])
+            root_1 = union_find.find(sorted_roads[i][1])
+            if union_find.p[root_0] > union_find.p[root_1]:
+                root_0, root_1 = root_1, root_0
+            if root_0 != root_1:
+                union_find.p[root_1] = root_0
+                union_find.size[root_1] += union_find.size[root_0]
+                edges_in_tree += 1
+            i += 1
+
+        cut = 0
+        for j in range(len(edges)):
+            if union_find.find(sorted_roads[j][0]) != union_find.find(sorted_roads[j][1]):
+                cut += 1
+
+        return cut
         
     def randomize_edges(edges):
         """
@@ -97,21 +122,29 @@ def spanning_tree_2(N, edges):
             - return a list of random weighted undirected edges (u, v, w)
         """
         
-        weighted_edges = []
-        
-        # TO COMPLETE 
+        weighted_edges = [(edges[i][0], edges[i][1], random.randint(0, len(edges))) for i in range(len(edges))]
                 
         return weighted_edges 
    
-    
-    min_cut = -1
-    
+    bin = 1/binomial(N, 2)
+    nodes = list(range(N))
+    min_cut = karger(nodes, edges)
+    probability = bin
+    while probability < 0.9999:
+        cut = karger(nodes, edges)
+        if cut < min_cut:
+            min_cut = cut
+            probability = bin
+        elif cut == min_cut:
+            probability += bin
+
     # TO COMPLETE (apply karger several times)
     # Probability to return the true min cut should be at least 0.9999
     
     return min_cut
     
-   
+
+
 if __name__ == "__main__":
 
     # Read Input for the second exercice
@@ -144,8 +177,3 @@ if __name__ == "__main__":
             print("Exercice 2 : Wrong answer")
             print("Your output : %d ; Correct answer : %d" % (ans, expected_output)) 
 
-
-# returns binomial expression
-binomial = lambda n,k : fact2(n,k)/math.factorial(n-k)
-# returns n!/k! = (n) * (n-1) * ... * (n-k+1)
-fact2 = lambda n, m : n*fact2(n-1, m) if n > m else 1
