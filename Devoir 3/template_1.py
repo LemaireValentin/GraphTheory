@@ -5,7 +5,8 @@
 """
 
 import math
-    
+
+
 def spanning_tree_1(N, roads):
     """ 
     INPUT : 
@@ -16,11 +17,29 @@ def spanning_tree_1(N, roads):
         
         See homework statement for more details
     """
-
     satisfaction = 0
-    
-    # TO COMPLETE
 
+    for i in range(len(roads)):
+        satisfaction += roads[i][2]
+
+    sorted_roads = sorted(roads, key=lambda x: x[2])
+    node_above = list(range(N))
+    edges_in_tree = 0
+    i = 0
+
+    def find(i):
+        if node_above[i] == i:
+            return i
+        return find(node_above[i])
+
+    while edges_in_tree < N-1 and i < len(sorted_roads):
+        root_0 = find(sorted_roads[i][0])
+        root_1 = find(sorted_roads[i][1])
+        if root_0 != root_1:
+            node_above[root_1] = root_0
+            edges_in_tree += 1
+            satisfaction -= sorted_roads[i][2]
+        i += 1
     return satisfaction
 
     
