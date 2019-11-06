@@ -145,4 +145,7 @@ if __name__ == "__main__":
             print("Your output : %d ; Correct answer : %d" % (ans, expected_output)) 
 
 
-binomial = lambda n,k : (math.factorial(n))/(math.factorial(k)*math.factorial(n-k))
+# returns binomial expression
+binomial = lambda n,k : fact2(n,k)/math.factorial(n-k)
+# returns n!/k! = (n) * (n-1) * ... * (n-k+1)
+fact2 = lambda n, m : n*fact2(n-1, m) if n > m else 1
