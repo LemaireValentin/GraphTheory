@@ -8,6 +8,7 @@
 import math
 import random
 
+
 class Union_Find():
     """
     Disjoint sets data structure for Kruskal's algorithm.
@@ -86,9 +87,6 @@ def spanning_tree_2(N, edges):
               
         See project homework for more details
         """
-
-
-
 
         roads = randomize_edges(edges)
 
