@@ -21,7 +21,7 @@ def matching(T, friends, hiding_places):
     reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
 
     is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
-    edge_in_coupling = [[False for _ in hiding_places] for _ in friends]
+    edge_in_coupling = [[False] * len(is_reachable[0]) for _ in range(len(is_reachable))]
 
     friends_coupled = [False] * len(friends)
     places_coupled = [False] * len(hiding_places)
@@ -30,7 +30,6 @@ def matching(T, friends, hiding_places):
     couple_places = [-1] * len(hiding_places)
 
     N = 0
-    done = False
 
     for i in range(len(friends)):
         for j in range(len(hiding_places)):
@@ -40,7 +39,7 @@ def matching(T, friends, hiding_places):
                 N += 1
                 break
 
-    while not done:
+    while True:
         c = [-1]
         first_ensemble = -1 
         last_ensemble = -1
@@ -58,7 +57,7 @@ def matching(T, friends, hiding_places):
         finished = False
         in_coupling = True
         while not finished:
-            if first_ensemble == 1:
+            if last_ensemble == 1:
                 for i in range(len(friends)):
                     if is_reachable[i][c[-1]] and edge_in_coupling[i][c[-1]] == in_coupling:
                         c.append(i)
@@ -67,7 +66,7 @@ def matching(T, friends, hiding_places):
                         break
                     if i == len(friends) - 1:
                         finished = True
-            if first_ensemble == 0:
+            if last_ensemble == 0:
                 for j in range(len(hiding_places)):
                     if is_reachable[c[-1]][j] and edge_in_coupling[c[-1]][j]  == in_coupling:
                         c.append(j)
@@ -77,7 +76,6 @@ def matching(T, friends, hiding_places):
                     if j == len(hiding_places) - 1:
                         finished = True
         if last_ensemble != first_ensemble and len(c) != 1:
-
             last_ensemble = first_ensemble
             in_coupling = True
             for i in range(len(c) - 1):
