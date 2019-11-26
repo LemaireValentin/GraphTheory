@@ -10,11 +10,16 @@ import math
 # ------------------------------
 # Tests (should be correct)
 # ------------------------------
-# is_reachable = [[0,0,1,0,0,1], [0,0,1,0,1,0], [1,1,0,0,0,0], [0,0,0,0,0,0], [0,1,0,0,0,0], [1,0,0,0,0,0]]   ;   solution = 2
-# is_reachable = [[0,0,1,0,0,0], [0,0,1,0,0,0], [1,1,0,1,1,1], [0,0,1,0,0,0], [0,0,1,0,0,0], [0,0,1,0,0,0]]   ;   solution = 1
-# is_reachable = [[0,0,1,0,0,1], [0,0,0,0,0,0], [1,0,0,0,1,0], [0,0,0,0,0,0], [0,0,1,0,0,0], [1,0,0,0,0,0]]   ;   solution = 2
-# is_reachable = [[0,0,1,0,0,1], [0,0,0,0,1,0], [1,0,0,0,1,0], [0,0,0,0,0,0], [0,1,1,0,0,0], [1,0,0,0,0,0]]   ;   solution = 2
-# is_reachable = [[0,0,1,0,0,1], [0,0,0,1,1,0], [1,0,0,0,1,0], [0,1,0,0,0,0], [0,1,1,0,0,0], [1,0,0,0,0,0]]   ;   solution = 3
+is_reachable = [[True , False, True ], [True , True , False], [False, False, False]]    ;   solution = 2
+is_reachable = [[True , True , False], [False, True , False], [True , False, False]]    ;   solution = 2
+is_reachable = [[True], [True], [True], [True], [True]]                                 ;   solution = 1
+is_reachable = [[True, True, True, True, True]]                                         ;   solution = 1
+is_reachable = [[False, True, False, True], [False, True, False, False]]                ;   solution = 2
+is_reachable = [[False, False], [True, True], [False, False], [True, False]]            ;   solution = 2
+is_reachable = [[False, True, False, True], [True, True, False, False]]                 ;   solution = 2
+is_reachable = [[False, True], [True, True], [False, False], [True, False]]             ;   solution = 2
+is_reachable = [[False, True, True], [True, True, False], [True, False, False]]         ;   solution = 3
+
 
     
 # def matching(T, friends, hiding_places):
