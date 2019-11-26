@@ -26,7 +26,8 @@ def matching(T, friends, hiding_places):
     friends_coupled = [False] * len(friends)
     places_coupled = [False] * len(hiding_places)
 
-    couple = [-1] * len(friends)
+    couple_friends = [-1] * len(friends)
+    couple_places = [-1] * len(hiding_places)
 
     N = 0
     done = False
@@ -34,7 +35,7 @@ def matching(T, friends, hiding_places):
     for i in range(len(friends)):
         for j in range(len(hiding_places)):
             if (is_reachable[i][j]) and (not friends_coupled[i]) and (not places_coupled[j]):
-                couple[i] = j
+                couple_friends[i], couple_places[j] = j, i
                 friends_coupled[i], places_coupled[j] = True, True
                 N += 1
                 break
@@ -42,21 +43,59 @@ def matching(T, friends, hiding_places):
     while not done:
         c = [-1]
         first_ensemble = -1 
+        last_ensemble = -1
         for i in range(len(friends)):
             if not friends_coupled[i]:
                 c[0] = i
                 first_ensemble = 0
+                last_ensemble = 0
         if c[0] == -1:
             for j in range(len(hiding_places)):
                 if not hiding_places[j]:
                     c[0] = j
                     first_ensemble = 1
+                    last_ensemble = 1
         finished = False
+        in_coupling = True
         while not finished:
-            if first_ensemble == 0:
+            if first_ensemble == 1:
                 for i in range(len(friends)):
-                    pass
-    return N
+                    if is_reachable[i][c[-1]] and edge_in_coupling[i][c[-1]] == in_coupling:
+                        c.append(i)
+                        in_coupling = not in_coupling
+                        last_ensemble = 0
+                        break
+                    if i == len(friends) - 1:
+                        finished = True
+            if first_ensemble == 0:
+                for j in range(len(hiding_places)):
+                    if is_reachable[c[-1]][j] and edge_in_coupling[c[-1]][j]  == in_coupling:
+                        c.append(j)
+                        in_coupling = not in_coupling
+                        last_ensemble = 1
+                        break
+                    if j == len(hiding_places) - 1:
+                        finished = True
+        if last_ensemble != first_ensemble and len(c) != 1:
+
+            last_ensemble = first_ensemble
+            in_coupling = True
+            for i in range(len(c) - 1):
+                if last_ensemble == 0:
+                    couple_friends[c[i]] = c[i+1]
+                    last_ensemble = 1
+                    friends_coupled[c[i]], places_coupled[c[i+1]]= True, True
+                    edge_in_coupling[c[i], c[i+1]] = in_coupling
+                    in_coupling = not in_coupling
+                if last_ensemble == 1:
+                    couple_places[c[i]] = c[i+1]
+                    last_ensemble = 0
+                    places_coupled[c[i]], friends_coupled[c[i+1]]= True, True
+                    edge_in_coupling[c[i+1], c[i]] = in_coupling
+                    in_coupling = not in_coupling
+            N += 1
+        else: 
+            return N
 
     
 if __name__ == "__main__":
