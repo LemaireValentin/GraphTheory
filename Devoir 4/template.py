@@ -22,8 +22,8 @@ is_reachable = [[False, True, True], [True, True, False], [True, False, False]] 
 
 
     
-# def matching(T, friends, hiding_places):
-def matching(is_reachable):
+def matching(T, friends, hiding_places):
+# def matching(is_reachable):
     """ 
     INPUT : 
         - T, the number of seconds
@@ -38,14 +38,14 @@ def matching(is_reachable):
     # -------------------------------------------------
     # SHOULD BE UNCOMMENTED (was commented for testing)
     # -------------------------------------------------
-    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
-    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
+    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
 
     # ---------------------------------------
     # Only for testing (should be deleted)
     # ---------------------------------------
-    friends = [0] * len(is_reachable)
-    hiding_places = [0] * len(is_reachable[0])
+    # friends = [0] * len(is_reachable)
+    # hiding_places = [0] * len(is_reachable[0])
     # ---------------------------------------
 
 
@@ -60,26 +60,34 @@ def matching(is_reachable):
         for j in range(len(hiding_places)):
             if (is_reachable[i][j]) and (not friends_coupled[i]) and (not places_coupled[j]):
                 friends_coupled[i], places_coupled[j] = True, True
+                edge_in_coupling[i][j] = True
                 N += 1
                 break
-
+    
+    explored = [False] * (len(friends) + len(hiding_places))
     while True:
         c = [-1]
         first_ensemble = -1 
         last_ensemble = -1
         for i in range(len(friends)):
-            if not friends_coupled[i]:
+            if (not friends_coupled[i]) and (not explored[i]):
                 c[0] = i
                 first_ensemble = 0
                 last_ensemble = 0
+                explored[i] = True
+                break
         if c[0] == -1:
             for j in range(len(hiding_places)):
-                if not places_coupled[j]:
+                if (not places_coupled[j]) and (not explored[len(friends) + j]):
                     c[0] = j
                     first_ensemble = 1
                     last_ensemble = 1
+                    explored[len(friends)+j] = True
+                    break
         finished = False
-        in_coupling = True
+        in_coupling = False
+        if c[0] ==  -1:
+            return N
         while not finished:
             if last_ensemble == 1:
                 for i in range(len(friends)):
@@ -90,34 +98,31 @@ def matching(is_reachable):
                         break
                     if i == len(friends) - 1:
                         finished = True
-            if last_ensemble == 0:
+            elif last_ensemble == 0:
                 for j in range(len(hiding_places)):
-                    if is_reachable[c[-1]][j] and edge_in_coupling[c[-1]][j]  == in_coupling:
+                    if is_reachable[c[-1]][j] and edge_in_coupling[c[-1]][j] == in_coupling:
                         c.append(j)
                         in_coupling = not in_coupling
                         last_ensemble = 1
                         break
                     if j == len(hiding_places) - 1:
                         finished = True
-        if len(c) >= 3:
-            if last_ensemble != first_ensemble:
-                c = c[:-1]
+        if len(c) >= 3 and last_ensemble != first_ensemble:
             last_ensemble = first_ensemble
             in_coupling = True
             for i in range(len(c) - 1):
                 if last_ensemble == 0:
+                    friends_coupled[c[i]], places_coupled[c[i+1]] = True, True
+                    edge_in_coupling[c[i]][c[i+1]] = in_coupling
+                    in_coupling = not in_coupling
                     last_ensemble = 1
-                    friends_coupled[c[i]], places_coupled[c[i+1]]= True, True
-                    edge_in_coupling[c[i], c[i+1]] = in_coupling
+                elif last_ensemble == 1:
+                    places_coupled[c[i]], friends_coupled[c[i+1]] = True, True
+                    edge_in_coupling[c[i+1]][c[i]] = in_coupling
                     in_coupling = not in_coupling
-                if last_ensemble == 1:
                     last_ensemble = 0
-                    places_coupled[c[i]], friends_coupled[c[i+1]]= True, True
-                    edge_in_coupling[c[i+1], c[i]] = in_coupling
-                    in_coupling = not in_coupling
             N += 1
-        else: 
-            return N
+            # explored = [False] * (len(friends) + len(hiding_places))
 
     
 if __name__ == "__main__":
