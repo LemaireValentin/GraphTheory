@@ -60,7 +60,6 @@ def matching(is_reachable):
         for j in range(len(hiding_places)):
             if (is_reachable[i][j]) and (not friends_coupled[i]) and (not places_coupled[j]):
                 friends_coupled[i], places_coupled[j] = True, True
-                print(i, j)
                 N += 1
                 break
 
