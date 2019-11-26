@@ -18,12 +18,45 @@ def matching(T, friends, hiding_places):
         
         See homework statement for more details
     """
-    
-    ans = 0
+    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
 
-    # TO COMPLETE
+    is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
+    edge_in_coupling = [[False for _ in hiding_places] for _ in friends]
 
-    return ans
+    friends_coupled = [False] * len(friends)
+    places_coupled = [False] * len(hiding_places)
+
+    couple = [-1] * len(friends)
+
+    N = 0
+    done = False
+
+    for i in range(len(friends)):
+        for j in range(len(hiding_places)):
+            if (is_reachable[i][j]) and (not friends_coupled[i]) and (not places_coupled[j]):
+                couple[i] = j
+                friends_coupled[i], places_coupled[j] = True, True
+                N += 1
+                break
+
+    while not done:
+        c = [-1]
+        first_ensemble = -1 
+        for i in range(len(friends)):
+            if not friends_coupled[i]:
+                c[0] = i
+                first_ensemble = 0
+        if c[0] == -1:
+            for j in range(len(hiding_places)):
+                if not hiding_places[j]:
+                    c[0] = j
+                    first_ensemble = 1
+        finished = False
+        while not finished:
+            if first_ensemble == 0:
+                for i in range(len(friends)):
+                    pass
+    return N
 
     
 if __name__ == "__main__":
