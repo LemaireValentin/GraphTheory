@@ -17,7 +17,8 @@ import math
 # is_reachable = [[0,0,1,0,0,1], [0,0,0,1,1,0], [1,0,0,0,1,0], [0,1,0,0,0,0], [0,1,1,0,0,0], [1,0,0,0,0,0]]   ;   solution = 3
 
     
-def matching(T, friends, hiding_places):
+# def matching(T, friends, hiding_places):
+def matching(is_reachable):
     """ 
     INPUT : 
         - T, the number of seconds
@@ -29,9 +30,20 @@ def matching(T, friends, hiding_places):
         
         See homework statement for more details
     """
-    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    # -------------------------------------------------
+    # SHOULD BE UNCOMMENTED (was commented for testing)
+    # -------------------------------------------------
+    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
 
-    is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
+    # ---------------------------------------
+    # Only for testing (should be deleted)
+    # ---------------------------------------
+    friends = [0] * len(is_reachable)
+    hiding_places = [0] * len(is_reachable[0])
+    # ---------------------------------------
+
+
     edge_in_coupling = [[False] * len(is_reachable[0]) for _ in range(len(is_reachable))]
 
     friends_coupled = [False] * len(friends)
@@ -128,8 +140,8 @@ if __name__ == "__main__":
             hiding_places.append(tuple([float(x) for x in l]))
 
     # Compute answer 
-     
-    ans = matching(T, friends, hiding_places)
+    ans = 2 
+    # ans = matching(T, friends, hiding_places)
      
     # Check results 
 
