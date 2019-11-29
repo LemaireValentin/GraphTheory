@@ -10,15 +10,15 @@ import math
 # ------------------------------
 # Tests (should be correct)
 # ------------------------------
-is_reachable = [[True , False, True ], [True , True , False], [False, False, False]]    ;   solution = 2
-is_reachable = [[True , True , False], [False, True , False], [True , False, False]]    ;   solution = 2
-is_reachable = [[True], [True], [True], [True], [True]]                                 ;   solution = 1
-is_reachable = [[True, True, True, True, True]]                                         ;   solution = 1
-is_reachable = [[False, True, False, True], [False, True, False, False]]                ;   solution = 2
-is_reachable = [[False, False], [True, True], [False, False], [True, False]]            ;   solution = 2
-is_reachable = [[False, True, False, True], [True, True, False, False]]                 ;   solution = 2
-is_reachable = [[False, True], [True, True], [False, False], [True, False]]             ;   solution = 2
-is_reachable = [[False, True, True], [True, True, False], [True, False, False]]         ;   solution = 3
+# is_reachable = [[True , False, True ], [True , True , False], [False, False, False]]    ;   solution = 2
+# is_reachable = [[True , True , False], [False, True , False], [True , False, False]]    ;   solution = 2
+# is_reachable = [[True], [True], [True], [True], [True]]                                 ;   solution = 1
+# is_reachable = [[True, True, True, True, True]]                                         ;   solution = 1
+# is_reachable = [[False, True, False, True], [False, True, False, False]]                ;   solution = 2
+# is_reachable = [[False, False], [True, True], [False, False], [True, False]]            ;   solution = 2
+# is_reachable = [[False, True, False, True], [True, True, False, False]]                 ;   solution = 2
+# is_reachable = [[False, True], [True, True], [False, False], [True, False]]             ;   solution = 2
+# is_reachable = [[False, True, True], [True, True, False], [True, False, False]]         ;   solution = 3
 
 
     
@@ -35,25 +35,33 @@ def matching(is_reachable):
         
         See homework statement for more details
     """
-    # -------------------------------------------------
-    # SHOULD BE UNCOMMENTED (was commented for testing)
-    # -------------------------------------------------
-    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
-    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
-
-
     # ---------------------------------------
     # Only for testing (should be deleted)
     # ---------------------------------------
     friends = [0] * len(is_reachable)
     hiding_places = [0] * len(is_reachable[0])
     # ---------------------------------------
+
+
+    # -------------------------------------------------
+    # SHOULD BE UNCOMMENTED (was commented for testing)
+    # -------------------------------------------------
+    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
     
-    can_reach = [[] for _ in range(len(friends))]
+    count_reachable = [0]*len(friends)
     for i in range(len(friends)):
+        for b in is_reachable[i]:
+            count_reachable[i] += int(b)
+
+
+    can_reach = [[0]*count_reachable[i] for i in range(len(friends))]
+    for i in range(len(friends)):
+        idx = 0
         for j in range(len(hiding_places)):
             if is_reachable[i][j]:
-                can_reach[i].append(j)
+                can_reach[i][idx] = j
+                idx += 1
 
     edge_in_coupling = [[False] * len(hiding_places) for _ in range(len(friends))]
 
