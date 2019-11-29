@@ -38,15 +38,15 @@ def matching(is_reachable):
     # -------------------------------------------------
     # SHOULD BE UNCOMMENTED (was commented for testing)
     # -------------------------------------------------
-    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
-    is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
+    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
 
 
     # ---------------------------------------
     # Only for testing (should be deleted)
     # ---------------------------------------
-    # friends = [0] * len(is_reachable)
-    # hiding_places = [0] * len(is_reachable[0])
+    friends = [0] * len(is_reachable)
+    hiding_places = [0] * len(is_reachable[0])
     # ---------------------------------------
     
     can_reach = [[] for _ in range(len(friends))]
@@ -136,7 +136,7 @@ def matching(is_reachable):
                     last_ensemble = 0
             coupled_places.append(c[-1])
             N += 1
-            # explored = [False] * (len(friends) + len(hiding_places))
+            explored = [False] * (len(friends) + len(hiding_places))
 
     
 if __name__ == "__main__":
