@@ -46,8 +46,8 @@ def matching(is_reachable):
     # -------------------------------------------------
     # SHOULD BE UNCOMMENTED (was commented for testing)
     # -------------------------------------------------
-    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
-    # is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
+    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    is_reachable = [[reachable(T, f, h) for h in hiding_places] for f in friends]
     
     count_reachable = [0]*len(friends)
     for i in range(len(friends)):
