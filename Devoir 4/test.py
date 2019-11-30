@@ -105,6 +105,11 @@ def test_26():
     is_reachable = np.full((20,4), True) ; solution = 4
     is_reachable[1:,1] = False ; is_reachable[0,3] = False; is_reachable[0,0] = False
     print('TEST 26 : Expected solution %d, output %d' % (solution, matching(is_reachable)))
+  
+def test_27():
+    is_reachable = np.full((20,4), True) ; solution = 4
+    is_reachable[1:,1] = False ; is_reachable[0,2:] = False
+    print('TEST 26 : Expected solution %d, output %d' % (solution, matching(is_reachable)))
     
 
 test_01()

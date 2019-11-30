@@ -6,8 +6,8 @@
 
 import math
     
-# def matching(T, friends, hiding_places):
-def matching(is_reachable):
+def matching(T, friends, hiding_places):
+# def matching(is_reachable):
     """ 
     INPUT : 
         - T, the number of seconds
@@ -19,21 +19,22 @@ def matching(is_reachable):
         
         See homework statement for more details
     """
-    
     ans = 0
-    friends = [0] * len(is_reachable)
-    hiding_places = [0] * len(is_reachable[0])
+    
+    # friends = [0] * len(is_reachable)
+    # hiding_places = [0] * len(is_reachable[0])
 
-    # reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
-
+    reachable = lambda T, friend, hiding_place : (friend[0]-hiding_place[0])**2 + (friend[1]-hiding_place[1])**2 <= (T*friend[2])**2 
+    
     accessible_places = [[] for _ in range(len(friends))]
 
     i = 0
     deleted = 0
-    for  i in range(len(friends)):
+    # filling "accessible_places"
+    for i in range(len(friends)):
         for j in range(len(hiding_places)):
-            # if reachable(T, friends[i], hiding_places[j]):
-            if is_reachable[i][j]:
+            if reachable(T, friends[i], hiding_places[j]):
+            # if is_reachable[i][j]:
                 accessible_places[i - deleted].append(j)
         if len(accessible_places[i - deleted]) == 0:
             accessible_places.pop(i - deleted)
@@ -42,7 +43,25 @@ def matching(is_reachable):
     accessible_places.sort(key=lambda x: len(x))
     
     while len(accessible_places) > 0:
-        hp = accessible_places[0].pop()
+        # Counting first occurence
+        hp = accessible_places[0][0]
+        hp_count = 0
+        for gandalf in accessible_places:
+            if hp in gandalf:
+                hp_count += 1
+
+        # Checking which one to remove
+        if len(accessible_places[0]) > 1:
+            for k in range(len(accessible_places[0])):
+                hp_tmp = accessible_places[0][k]
+                hp_count_tmp = 0
+                for gandalf in accessible_places:
+                    if hp_tmp in gandalf:
+                        hp_count_tmp += 1
+                if hp_count_tmp < hp_count :
+                    hp = hp_tmp
+                    hp_count = hp_count_tmp
+                
         accessible_places.pop(0)
         i = 0
         while i < len(accessible_places):
